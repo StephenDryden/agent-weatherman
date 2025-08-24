@@ -1,0 +1,47 @@
+# Docker ignore file for Weather Agent
+
+# Build artifacts
+**/bin/
+**/obj/
+**/Debug/
+**/Release/
+**/.vs/
+**/.vscode/
+**/*.user
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+
+# Runtime files
+*.dll
+*.pdb
+*.exe
+
+# Git
+.git/
+.gitignore
+
+# Node modules (if any)
+node_modules/
+
+# Other
+.env
+.env.local
+.env.production
+tmp/
+temp/

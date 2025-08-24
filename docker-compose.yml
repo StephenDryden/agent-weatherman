@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # MCP Weather Server (placeholder - you would replace this with your actual MCP server)
+  mcp-server:
+    image: weather-mcp-server:latest  # Replace with your actual MCP server image
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - WEATHER_API_KEY=${WEATHER_API_KEY}
+    # Uncomment if you have a weather MCP server image
+    # build:
+    #   context: ./mcp-server
+    #   dockerfile: Dockerfile
+
+  # Weather Agent
+  weather-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - WEATHERAGENT_AgentSettings__GitHubToken=${GITHUB_TOKEN}
+      - WEATHERAGENT_AgentSettings__McpServerUrl=ws://mcp-server:3000
+      - WEATHERAGENT_AgentSettings__ModelName=gpt-4o-mini
+      - WEATHERAGENT_AgentSettings__MaxTokens=1000
+      - WEATHERAGENT_AgentSettings__Temperature=0.7
+    depends_on:
+      - mcp-server
+    stdin_open: true
+    tty: true
+    volumes:
+      # Optional: mount config file
+      - ./AgentWeatherman/appsettings.json:/app/appsettings.json:ro
+
+# Example environment file (.env) content:
+# GITHUB_TOKEN=your_github_personal_access_token
+# WEATHER_API_KEY=your_weather_api_key_for_mcp_server
